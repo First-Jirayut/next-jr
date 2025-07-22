@@ -1,17 +1,21 @@
 "use client";
 import React, { useState } from "react";
 
-// mock ตะกร้าสินค้า
-const CART_ITEMS = [
-  { name: "เค้กช็อกโกแลต", price: 85, qty: 1, img: "/images/cake-choco.jpg" },
-  { name: "โกโก้เย็น", price: 50, qty: 2, img: "/images/cocoa.jpg" },
-];
-
 const OrdersPage = () => {
   const [form, setForm] = useState({ name: "", phone: "", address: "" });
   const [success, setSuccess] = useState(false);
+  const [cartItems, setCartItems] = useState<any[]>([]);
 
-  const total = CART_ITEMS.reduce((sum, item) => sum + item.price * item.qty, 0);
+  React.useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const cartStr = localStorage.getItem('cart_items');
+      if (cartStr) {
+        setCartItems(JSON.parse(cartStr));
+      }
+    }
+  }, []);
+
+  const total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -38,7 +42,7 @@ const OrdersPage = () => {
             <div>
               <h2 className="text-xl font-bold text-blue-700 mb-4">รายการที่สั่ง</h2>
               <div className="space-y-3">
-                {CART_ITEMS.map((item, idx) => (
+                {cartItems.map((item, idx) => (
                   <div key={item.name + '-' + idx} className="flex items-center gap-3 bg-blue-50/60 rounded-lg p-2 shadow-sm">
                     <div className="w-14 h-14 bg-gray-100 rounded-full overflow-hidden flex items-center justify-center">
                       <img
@@ -73,8 +77,8 @@ const OrdersPage = () => {
                   value={form.name}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none"
-                  placeholder="ชื่อผู้รับ"
+                  className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none placeholder-gray-300"
+                  placeholder="เช่น สมชาย ใจดี"
                 />
               </div>
               <div>
@@ -85,7 +89,7 @@ const OrdersPage = () => {
                   value={form.phone}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none"
+                  className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none placeholder-gray-300"
                   placeholder="เบอร์โทร"
                 />
               </div>
@@ -97,7 +101,7 @@ const OrdersPage = () => {
                   onChange={handleChange}
                   required
                   rows={3}
-                  className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none"
+                  className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none placeholder-gray-300"
                   placeholder="ที่อยู่สำหรับจัดส่ง"
                 />
               </div>
