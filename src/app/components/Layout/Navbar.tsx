@@ -6,6 +6,7 @@ const NAVS = [
   { href: "/", label: "หน้าแรก" },
   { href: "/menu", label: "เมนู" },
   { href: "/order", label: "สั่งซื้อ" },
+  { href: "/crypto/crypto-price", label: "Stock" },
   { href: "/contact", label: "ติดต่อเรา" },
 ];
 
@@ -32,9 +33,14 @@ const Navbar = () => {
             <Link
               key={nav.href}
               href={nav.href}
-              className="px-4 py-2 rounded-lg font-medium text-white/90 hover:text-white hover:bg-blue-600/80 transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+              className="px-4 py-2 rounded-lg font-medium text-white/90 hover:text-white hover:bg-blue-600/80 transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 relative"
             >
               {nav.label}
+              {nav.label === "Stock" && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full font-bold animate-pulse text-[8px]">
+                  NEWS
+                </span>
+              )}
             </Link>
           ))}
         </div>
@@ -61,10 +67,15 @@ const Navbar = () => {
               <Link
                 key={nav.href}
                 href={nav.href}
-                className="block px-4 py-2 rounded-lg font-medium text-white/90 hover:text-white hover:bg-blue-600/80 transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+                className="block px-4 py-2 rounded-lg font-medium text-white/90 hover:text-white hover:bg-blue-600/80 transition shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70 relative"
                 onClick={() => setOpen(false)}
               >
                 {nav.label}
+                {nav.label === "Stock" && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full font-bold animate-pulse">
+                    NEWS
+                  </span>
+                )}
               </Link>
             ))}
           </div>

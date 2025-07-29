@@ -9,8 +9,21 @@ const compat = new FlatCompat({
   baseDirectory: __dirname,
 });
 
-const eslintConfig = [
+export default [
+  // เพิ่ม plugin สำหรับ import
+  {
+    plugins: {
+      import: require("eslint-plugin-import"),
+    },
+    settings: {
+      "import/resolver": {
+        typescript: {
+          project: "./tsconfig.json", // สำคัญ ต้องชี้ไปที่ tsconfig
+        },
+      },
+    },
+  },
+
+  // Config หลักของ Next.js
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 ];
-
-export default eslintConfig;

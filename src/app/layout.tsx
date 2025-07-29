@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
-import Navbar from "@/src/app/components/Layout/Navbar";
-import "./globals.css"; // ถ้ามี CSS รวมทั้งหมด
+import Navbar from "@/components/Layout/Navbar";
+import ReduxProvider from "@/store/Provider";
+import Footer from "@/components/Layout/Footer";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Jirayut Dev",
@@ -15,8 +17,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="min-h-screen bg-white text-gray-900">
-        <Navbar />
-        <main>{children}</main>
+        <ReduxProvider>
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );

@@ -18,10 +18,29 @@ const ContactPage = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSent(true);
+  
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form),
+      });
+  
+      const result = await res.json();
+  
+      if (result.success) {
+        setSent(true);
+      } else {
+        alert('เกิดข้อผิดพลาด: ' + result.error);
+      }
+    } catch (err) {
+      alert('ไม่สามารถส่งข้อความได้');
+      console.error(err);
+    }
   };
+  
 
   return (
     <div className="min-h-[calc(100vh-64px)] bg-gradient-to-br from-blue-100 via-cyan-100 via-60% to-pink-50 flex items-center justify-center py-8 px-2">
@@ -53,7 +72,7 @@ const ContactPage = () => {
                     value={form.name}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none"
+                    className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none text-gray-900"
                     placeholder="ชื่อของคุณ"
                   />
                 </div>
@@ -65,7 +84,7 @@ const ContactPage = () => {
                     value={form.phone}
                     onChange={handleChange}
                     required
-                    className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none"
+                    className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none text-gray-900"
                     placeholder="เบอร์โทรของคุณ"
                   />
                 </div>
@@ -77,7 +96,7 @@ const ContactPage = () => {
                     onChange={handleChange}
                     required
                     rows={3}
-                    className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none"
+                    className="w-full rounded-lg border border-blue-200 p-2 focus:ring-2 focus:ring-blue-300 outline-none text-gray-900"
                     placeholder="สอบถามหรือฝากข้อความถึงร้าน"
                   />
                 </div>
